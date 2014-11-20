@@ -58,16 +58,6 @@
                 </inverse-join-columns>
             </join-table>
         </many-to-many>
-        <many-to-many field="taxonomies" inversed-by="products" target-entity="Sylius\Component\Taxonomy\Model\TaxonomyInterface">
-            <join-table name="sylius_product_taxonomy">
-                <join-columns>
-                    <join-column name="channel_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
-                </join-columns>
-                <inverse-join-columns>
-                    <join-column name="taxonomy_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
-                </inverse-join-columns>
-            </join-table>
-        </many-to-many>
     </mapped-superclass>
 
 </doctrine-mapping>

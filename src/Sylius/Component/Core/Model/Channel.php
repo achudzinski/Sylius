@@ -18,7 +18,6 @@ use Sylius\Component\Currency\Model\CurrencyInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Payment\Model\PaymentMethodInterface;
 use Sylius\Component\Shipping\Model\ShippingMethodInterface as BaseShippingMethodInterface;
-use Sylius\Component\Taxonomy\Model\TaxonomyInterface as BaseTaxonomyInterface;
 
 /**
  * Core channel model.
@@ -48,11 +47,6 @@ class Channel extends BaseChannel implements ChannelInterface
     protected $shippingMethods;
 
     /**
-     * @var BaseTaxonomyInterface[]
-     */
-    protected $taxonomies;
-
-    /**
      * Constructor.
      */
     public function __construct()
@@ -63,7 +57,6 @@ class Channel extends BaseChannel implements ChannelInterface
         $this->locales = new ArrayCollection();
         $this->paymentMethods = new ArrayCollection();
         $this->shippingMethods = new ArrayCollection();
-        $this->taxonomies = new ArrayCollection();
     }
 
     /**
@@ -228,51 +221,5 @@ class Channel extends BaseChannel implements ChannelInterface
     public function hasPaymentMethod(PaymentMethodInterface $paymentMethod)
     {
         return $this->paymentMethods->contains($paymentMethod);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTaxonomies()
-    {
-        return $this->taxonomies;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setTaxonomies(Collection $taxonomies)
-    {
-        $this->taxonomies = $taxonomies;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function addTaxonomy(BaseTaxonomyInterface $taxonomy)
-    {
-        if (!$this->hasTaxonomy($taxonomy)) {
-            $this->taxonomies->add($taxonomy);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function removeTaxonomy(BaseTaxonomyInterface $taxonomy)
-    {
-        if ($this->hasTaxonomy($taxonomy)) {
-            $this->taxonomies->removeElement($taxonomy);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function hasTaxonomy(BaseTaxonomyInterface $taxonomy)
-    {
-        return $this->taxonomies->contains($taxonomy);
     }
 }

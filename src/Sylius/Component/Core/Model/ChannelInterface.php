@@ -17,7 +17,6 @@ use Sylius\Component\Currency\Model\CurrenciesAwareInterface;
 use Sylius\Component\Locale\Model\LocalesAwareInterface;
 use Sylius\Component\Payment\Model\PaymentMethodsAwareInterface;
 use Sylius\Component\Shipping\Model\ShippingMethodsAwareInterface;
-use Sylius\Component\Taxonomy\Model\TaxonomiesAwareInterface;
 
 /**
  * Sylius core channel interface.
@@ -27,7 +26,6 @@ use Sylius\Component\Taxonomy\Model\TaxonomiesAwareInterface;
  *   - Locales;
  *   - Payment methods;
  *   - Shipping methods;
- *   - Taxonomies.
  *
  * @author Paweł Jędrzejewski <pjedrzejewski@diweb.pl>
  */
@@ -36,7 +34,6 @@ interface ChannelInterface extends
     CurrenciesAwareInterface,
     LocalesAwareInterface,
     PaymentMethodsAwareInterface,
-    ShippingMethodsAwareInterface,
-    TaxonomiesAwareInterface
+    ShippingMethodsAwareInterface
 {
 }

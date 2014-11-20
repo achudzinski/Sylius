@@ -35,7 +35,7 @@ class ChannelType extends AbstractResourceType
             ->add('name', 'text', array(
                 'label' => 'sylius.form.channel.name'
             ))
-            ->add('description', 'text', array(
+            ->add('description', 'textarea', array(
                 'label'    => 'sylius.form.channel.description',
                 'required' => false,
             ))
