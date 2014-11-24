@@ -110,4 +110,56 @@ interface PrototypeInterface extends TimestampableInterface
      * @return Boolean
      */
     public function hasOption(OptionInterface $option);
+
+    /**
+     * Is root prototype?
+     *
+     * @return Boolean
+     */
+    public function isRoot();
+
+    /**
+     * Get parent prototype.
+     *
+     * @return PrototypeInterface
+     */
+    public function getParent();
+
+    /**
+     * Set parent prototype.
+     *
+     * @param null|PrototypeInterface $taxon
+     */
+    public function setParent(PrototypeInterface $taxon = null);
+
+    /**
+     * Get children prototypes.
+     *
+     * @return Collection|PrototypeInterface[]
+     */
+    public function getChildren();
+
+    /**
+     * Has child prototype?
+     *
+     * @param PrototypeInterface $taxon
+     *
+     * @return Boolean
+     */
+    public function hasChild(PrototypeInterface $taxon);
+
+    /**
+     * Add child prototype.
+     *
+     * @param PrototypeInterface $taxon
+     */
+    public function addChild(PrototypeInterface $taxon);
+
+    /**
+     * Remove child prototype.
+     *
+     * @param PrototypeInterface $taxon
+     */
+    public function removeChild(PrototypeInterface $taxon);
+
 }

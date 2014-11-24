@@ -64,6 +64,20 @@ class Prototype implements PrototypeInterface
     protected $updatedAt;
 
     /**
+     * Parent prototype.
+     *
+     * @var PrototypeInterface
+     */
+    protected $parent;
+
+    /**
+     * Child prototypes.
+     *
+     * @var Collection
+     */
+    protected $children;
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -71,6 +85,7 @@ class Prototype implements PrototypeInterface
         $this->attributes = new ArrayCollection();
         $this->options = new ArrayCollection();
         $this->createdAt = new \DateTime();
+        $this->children = new ArrayCollection();
     }
 
     /**
@@ -231,6 +246,76 @@ class Prototype implements PrototypeInterface
     public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isRoot()
+    {
+        return null === $this->parent;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setParent(PrototypeInterface $parent = null)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasChild(PrototypeInterface $prototype)
+    {
+        return $this->children->contains($prototype);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addChild(PrototypeInterface $prototype)
+    {
+        if (!$this->hasChild($prototype)) {
+            $prototype->setParent($this);
+
+            $this->children->add($prototype);
+        }
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeChild(PrototypeInterface $prototype)
+    {
+        if ($this->hasChild($prototype)) {
+            $prototype->setParent(null);
+
+            $this->children->removeElement($prototype);
+        }
 
         return $this;
     }

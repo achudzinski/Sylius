@@ -14,6 +14,8 @@ namespace spec\Sylius\Component\Product\Model;
 use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Product\Model\AttributeInterface;
+use Sylius\Component\Product\Model\PrototypeInterface;
+
 
 /**
  * @author Paweł Jędrzejewski <pawel@sylius.org>
@@ -98,7 +100,7 @@ class PrototypeSpec extends ObjectBehavior
         $this->getUpdatedAt()->shouldReturn($date);
     }
 
-    function it_has_fluent_interface(Collection $attributes, AttributeInterface $attribute)
+    function it_has_fluent_interface(Collection $attributes, AttributeInterface $attribute, PrototypeInterface $prototype)
     {
         $date = new \DateTime();
 
@@ -108,5 +110,66 @@ class PrototypeSpec extends ObjectBehavior
         $this->removeAttribute($attribute)->shouldReturn($this);
         $this->setCreatedAt($date)->shouldReturn($this);
         $this->setUpdatedAt($date)->shouldReturn($this);
+        $this->setParent($prototype)->shouldReturn($this);
+        $this->addChild($prototype)->shouldReturn($this);
+        $this->removeChild($prototype)->shouldReturn($this);
+    }
+
+
+    function it_has_no_parent_by_default()
+    {
+        $this->getParent()->shouldReturn(null);
+    }
+
+    function its_parent_is_mutable(PrototypeInterface $prototype)
+    {
+        $this->setParent($prototype);
+        $this->getParent()->shouldReturn($prototype);
+    }
+
+    function it_is_root_by_default()
+    {
+        $this->shouldBeRoot();
+    }
+
+    function it_is_not_root_when_has_parent(PrototypeInterface $prototype)
+    {
+        $this->setParent($prototype);
+        $this->shouldNotBeRoot();
+    }
+
+    function it_is_root_when_has_no_parent(PrototypeInterface $prototype)
+    {
+        $this->shouldBeRoot();
+
+        $this->setParent($prototype);
+        $this->shouldNotBeRoot();
+
+        $this->setParent(null);
+        $this->shouldBeRoot();
+    }
+
+    function it_allows_to_add_child(PrototypeInterface $prototype)
+    {
+        $this->hasChild($prototype)->shouldReturn(false);
+
+        $prototype->setParent($this)->shouldBeCalled();
+        $this->addChild($prototype);
+        $this->hasChild($prototype)->shouldReturn(true);
+    }
+
+    function it_allows_to_remove_child(PrototypeInterface $prototype)
+    {
+        $this->hasChild($prototype)->shouldReturn(false);
+
+        $prototype->setParent($this)->shouldBeCalled();
+        $this->addChild($prototype);
+
+        $this->hasChild($prototype)->shouldReturn(true);
+
+        $prototype->setParent(null)->shouldBeCalled();
+        $this->removeChild($prototype);
+
+        $this->hasChild($prototype)->shouldReturn(false);
     }
 }
